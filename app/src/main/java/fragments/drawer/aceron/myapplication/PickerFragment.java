@@ -27,7 +27,7 @@ public class PickerFragment extends Fragment implements View.OnClickListener {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_picker_fragment container, false);
+        View view = inflater.inflate(R.layout.activity_picker_fragment, container, false);
 
         dateEditText = view.findViewById(R.id.date_editText);
         timeEditText = view.findViewById(R.id.time_editText);
@@ -37,6 +37,15 @@ public class PickerFragment extends Fragment implements View.OnClickListener {
 
         return view;
     }
+    public void showTruitonTimePickerDialog(View v) {
+        DialogFragment datePickerFragment = new DatePickerFragment();
+        datePickerFragment.show(getFragmentManager(), "datePicker");
+
+        DialogFragment timePickerFragment = new TimePickerFragment();
+        timePickerFragment.show(getFragmentManager(), "timePicker");
+    }
+
+
 
     @Override
     public void onClick(View view) {
@@ -46,16 +55,25 @@ public class PickerFragment extends Fragment implements View.OnClickListener {
             case R.id.date_editText:
                 DialogFragment datePickerFragment = new DatePickerFragment();
                 datePickerFragment.show(getFragmentManager(), "datePicker");
+                showTruitonTimePickerDialog(view);
                 break;
+
 
             case R.id.time_editText:
                 DialogFragment timePickerFragment = new TimePickerFragment();
                 timePickerFragment.show(getFragmentManager(), "timePicker");
+                showTruitonTimePickerDialog(view);
                 break;
+
         }
     }
 
+
+
     public static class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
+
+        EditText time_editText;
+
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -64,6 +82,7 @@ public class PickerFragment extends Fragment implements View.OnClickListener {
             int hour = c.get(Calendar.HOUR_OF_DAY);
             int minute = c.get(Calendar.MINUTE);
 
+
             // Create a new instance of TimePickerDialog and return it
             return new TimePickerDialog(getActivity(), this, hour, minute, DateFormat.is24HourFormat(getActivity()));
         }
@@ -71,6 +90,7 @@ public class PickerFragment extends Fragment implements View.OnClickListener {
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             // Do something with the time chosen by the user
             String time = "";
+
 
             if(hourOfDay > 12){
                 time = (hourOfDay - 12) + ":" + minute + " PM";
@@ -83,11 +103,17 @@ public class PickerFragment extends Fragment implements View.OnClickListener {
             }
 
             Toast.makeText(getActivity(), time, Toast.LENGTH_SHORT).show();
+
         }
+
 
     }
 
+
+
     public static class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
+
+        EditText date_editText;
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -106,6 +132,9 @@ public class PickerFragment extends Fragment implements View.OnClickListener {
             // Do something with the date chosen by the user
             month += 1; // increment month since month starts with 0
             Toast.makeText(getActivity(), year + "-" + month + "-" + dayOfMonth, Toast.LENGTH_SHORT).show();
+
+
         }
+
     }
 }

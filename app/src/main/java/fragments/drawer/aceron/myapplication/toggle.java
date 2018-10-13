@@ -12,7 +12,7 @@ import android.widget.CompoundButton;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-public class Fragment extends Fragment implements CompoundButton.OnCheckedChangeListener{
+public class toggle extends Fragment implements CompoundButton.OnCheckedChangeListener{
     private boolean toggleButtonValue = false;
     private boolean toggleSwitchValue = false;
 
